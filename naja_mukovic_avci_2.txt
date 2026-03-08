@@ -1,0 +1,42 @@
+Name: Naja Mukovic Avci
+GitHub repository: https://github.com/najamavci/python_exam Course:
+Programmering med Python – TAP HT25
+Examination assignment: Fruit Loop game
+
+Implemented requirements:
+
+Version 1 – Grundkrav
+
+· A – Player starts near the center of the room
+
+· B – Movement in four directions using WASD
+
+· C – Player cannot move through walls
+
+· D – All fruits are worth 20 points
+
+· E – Inventory system implemented using a list
+
+· F – Command "i" prints the contents of the player's inventory
+
+· G – The floor is lava: player loses 1 point for each step
+
+· H – Walls created using for-loops in grid.py
+
+
+Version 2 – Extra features implemented
+
+· I – Trap: stepping on a trap removes 10 points and the trap remains on the map
+
+· J – Shovel: player can break one wall when attempting to move into it
+
+· K – Keys and chests: player can collect keys and open chests to receive treasure worth 100 points
+
+· M – Exit: player can exit the game after collecting all original fruits
+
+
+Comments
+
+The game runs without errors and can be started with python -m src.game
+The code is organized across the files game.py, grid.py, player.py, and pickups.py.
+Inner walls were created using loops while ensuring that the player can still reach all areas of the map.
