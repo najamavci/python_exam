@@ -3,8 +3,7 @@ from .player import Player
 from . import pickups
 
 
-
-player = Player(2, 1)
+player = Player(10, 5)  # start near center
 score = 0
 inventory = []
 
@@ -14,32 +13,50 @@ g.make_walls()
 pickups.randomize(g)
 
 
-# TODO: flytta denna till en annan fil
 def print_status(game_grid):
-    """Visa spelvärlden och antal poäng."""
+    """Show the game world and score."""
     print("--------------------------------------")
-    print(f"You have {score} points.")
+    point_word = "point" if abs(score) == 1 else "points"
+    print(f"You have {score} {point_word}.")
     print(game_grid)
 
 
 command = "a"
+
 # Loopa tills användaren trycker Q eller X.
 while not command.casefold() in ["q", "x"]:
     print_status(g)
 
-    command = input("Use WASD to move, Q/X to quit. ")
+    command = input("Use WASD to move, I for inventory, Q/X to quit: ")
     command = command.casefold()[:1]
 
-    if command == "d" and player.can_move(1, 0, g):  # move right
-        # TODO: skapa funktioner, så vi inte behöver upprepa så mycket kod för riktningarna "W,A,S"
-        maybe_item = g.get(player.pos_x + 1, player.pos_y)
-        player.move(1, 0)
+    dx, dy = 0, 0
+
+    if command == "d":
+        dx, dy = 1, 0
+    elif command == "a":
+        dx, dy = -1, 0
+    elif command == "w":
+        dx, dy = 0, -1
+    elif command == "s":
+        dx, dy = 0, 1
+    elif command == "i":
+        print("Inventory:", inventory)
+
+    if (dx != 0 or dy != 0) and player.can_move(dx, dy, g):
+        maybe_item = g.get(player.pos_x + dx, player.pos_y + dy)
+
+        player.move(dx, dy)
+
+        # lose 1 point for each step
+        score -= 1
 
         if isinstance(maybe_item, pickups.Item):
-            # we found something
             score += maybe_item.value
+            inventory.append(maybe_item.name)
+
             print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
-            #g.set(player.pos_x, player.pos_y, g.empty)
+
             g.clear(player.pos_x, player.pos_y)
 
 
